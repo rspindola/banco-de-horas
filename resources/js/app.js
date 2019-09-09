@@ -5,7 +5,8 @@
  */
 
 require('./bootstrap');
-
+require('@chenfengyuan/datepicker/dist/datepicker')
+require('datatables.net-dt/js/dataTables.dataTables')
 window.Vue = require('vue');
 
 /**

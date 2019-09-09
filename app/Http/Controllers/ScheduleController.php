@@ -35,7 +35,13 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $schedule = auth()->user()->schedules()->create($request->all());
+        $validatedData = $request->validate([
+            'date' => 'required',
+            'startTime' => 'required',
+            'finishTime' => 'required'
+        ]);
+        
+        $schedule = auth()->user()->schedules()->create($validatedData);
         return back();
     }
 

@@ -6,51 +6,75 @@
         <div class="col-md-6">
             <form action="/create-schedule" method="post">
                 @csrf
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="inputEmail4">Data</label>
-                        <input type="date" class="form-control" name="date">
+                <div class="form-group row">
+                    <label for="inputData" class="col-sm-2 col-form-label">Data</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control @error('date') is-invalid @enderror" name="date" data-toggle="datepicker">
+
+                        @error('date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="inputPassword4">Entrada</label>
-                        <input type="time" class="form-control" name='startTime'>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEntrada" class="col-sm-2 col-form-label">Entrada</label>
+                    <div class="col-sm-10">
+                        <input type="time" class="form-control timepicker @error('startTime') is-invalid @enderror" name='startTime'>
+
+                        @error('startTime')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="inputPassword4">Saida</label>
-                        <input type="time" class="form-control" name='finishTime'>
+                </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Saida</label>
+                    <div class="col-sm-10">
+                        <input type="time" class="form-control timepicker @error('finishTime') is-invalid @enderror" name='finishTime'>
+
+                        @error('finishTime')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
-                    <div class="form-group col-md-12">
-                        <button type="submit">Enviar</button>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                            <button type="submit" class="btn btn-success float-right">Enviar</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="col-md-6">
             @if(isset($schedules))
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
+            <table id="table_id" class="table table-striped table-bordered nowrap">
+                <thead>
                     <tr>
                         <th>Dia</th>
-                        <th>Entrada</th>
-                        <th>Saida</th>
-                        <th>Total</th>
+                        <th class="text-right">Entrada</th>
+                        <th class="text-right">Saida</th>
+                        <th class="text-right">Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php 
-                        $soma = 0;
+                    @php
+                    $soma = 0;
                     @endphp
                     @foreach ($schedules as $schedule)
                     @php
-                        $startTime = Carbon\Carbon::createFromFormat('H:i', $schedule->startTime);
-                        $finishTime = Carbon\Carbon::createFromFormat('H:i', $schedule->finishTime);
+                    $startTime = Carbon\Carbon::createFromFormat('H:i', $schedule->startTime);
+                    $finishTime = Carbon\Carbon::createFromFormat('H:i', $schedule->finishTime);
 
-                        $tempoTotal = $startTime->diffInMinutes($finishTime) - 540;
+                    $tempoTotal = $startTime->diffInMinutes($finishTime) - 540;
 
-                        $tempoTotalHora = ($tempoTotal > 0 ? floor($tempoTotal / 60) : ceil($tempoTotal / 60));
-                        $tempoTotalMinutos = substr('0' . $tempoTotal % 60, -2);
+                    $tempoTotalHora = ($tempoTotal > 0 ? floor($tempoTotal / 60) : ceil($tempoTotal / 60));
+                    $tempoTotalMinutos = substr('0' . $tempoTotal % 60, -2);
 
-                        $soma += $tempoTotal;
+                    $soma += $tempoTotal;
                     @endphp
                     <tr>
                         <td>{{Carbon\Carbon::parse($schedule->date)->format('d/m/Y') }}</td>
@@ -65,17 +89,17 @@
                         </td>
                     </tr>
                     @endforeach
-                    <tfoot>
-                        @php
-                            $somaHora = ($soma > 0 ? floor($soma / 60) : ceil($soma / 60));
-                            $somaMinutos = substr('0' . $soma % 60, -2);   
-                        @endphp
-                        <td colspan="4" class="text-right">
-                            <p class="font-weight-bold {{($soma > 0 ? 'text-success' : 'text-danger')}}">
-                                <b>{{$somaHora}}:{{$somaMinutos}}</b>
-                            </p>
-                        </td>
-                    </tfoot>
+                <tfoot>
+                    @php
+                    $somaHora = ($soma > 0 ? floor($soma / 60) : ceil($soma / 60));
+                    $somaMinutos = substr('0' . $soma % 60, -2);
+                    @endphp
+                    <td colspan="4" class="text-right">
+                        <p class="font-weight-bold {{($soma > 0 ? 'text-success' : 'text-danger')}}">
+                            <b>{{$somaHora}}:{{$somaMinutos}}</b>
+                        </p>
+                    </td>
+                </tfoot>
                 </tbody>
             </table>
             @endif
@@ -85,4 +109,4 @@
 
     </div>
 </div>
-@endsection
+@stop

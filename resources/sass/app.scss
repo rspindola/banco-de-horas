@@ -3,6 +3,11 @@
 
 // Variables
 @import 'variables';
+@import 'custom';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Datepicker
+@import '~@chenfengyuan/datepicker/dist/datepicker';
+@import '~datatables.net-dt/css/jquery.dataTables';

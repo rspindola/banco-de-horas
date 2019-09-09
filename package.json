@@ -22,5 +22,10 @@
         "sass-loader": "7.*",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "@chenfengyuan/datepicker": "^1.0.8",
+        "datatables.net": "^1.10.19",
+        "datatables.net-dt": "^1.10.19"
     }
 }
