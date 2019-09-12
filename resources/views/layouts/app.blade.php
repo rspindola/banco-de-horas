@@ -60,8 +60,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}"           onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 
@@ -94,10 +94,7 @@
             show_meridian: false,
             min_hour_value: 0,
             max_hour_value: 23,
-            step_size_minutes: 15,
-            overflow_minutes: true,
-            increase_direction: 'up',
-            disable_keyboard_mobile: true
+            increase_direction: 'up'
         });
 
         $('[data-toggle="datepicker"]').datepicker({
@@ -108,7 +105,7 @@
 
         $(document).ready( function () {
             $('#table_id').DataTable({
-                autoFill: true,
+                ordering: false,
                 fixedHeader: true,
                 responsive: true,
                 "language": {
@@ -136,6 +133,36 @@
                 }
             });
         } );
+
+        $(".edit-modal").click(function() {
+            console.log($(this).data('id'))
+            console.log($(this).data('date'))
+            console.log($(this).data('starttime'))
+            console.log($(this).data('finishTime'))
+            var id = $(this).data('id');
+            var url = '{{ route("update.schedule", ":id") }}';
+            url = url.replace(':id', id);
+            $("#editForm").attr('action', url);
+            $('#editForm input[name=date]').val($(this).data('date'));
+            $('#editForm input[name=startTime]').val($(this).data('starttime'));
+            $('#editForm input[name=finishTime]').val($(this).data('finishtime'));
+            $('#editModal').modal('show')
+        })
+
+        function formEditar() {
+            $("#editForm").submit();
+        }
+
+        function deleteData(id) {
+            var id = id;
+            var url = '{{ route("delete.schedule", ":id") }}';
+            url = url.replace(':id', id);
+            $("#deleteForm").attr('action', url);
+        }
+        
+        function formSubmit() {
+            $("#deleteForm").submit();
+        }
     </script>
 </body>
 

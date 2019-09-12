@@ -42,7 +42,8 @@ class ScheduleController extends Controller
         ]);
         
         $schedule = auth()->user()->schedules()->create($validatedData);
-        return back();
+        return redirect()->route('home')
+            ->with('success', 'Criado com sucesso.');
     }
 
     /**
@@ -76,7 +77,15 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, Schedule $schedule)
     {
-        //
+        $validatedData = $request->validate([
+            'date' => 'required',
+            'startTime' => 'required',
+            'finishTime' => 'required'
+        ]);
+        
+        $schedule = auth()->user()->schedules()->update($validatedData);
+        return redirect()->route('home')
+            ->with('success', 'Alterado com sucesso.');
     }
 
     /**
@@ -85,8 +94,11 @@ class ScheduleController extends Controller
      * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy($id)
     {
-        //
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
+        return redirect()->route('home')
+            ->with('success', 'Excluido com sucesso.');
     }
 }

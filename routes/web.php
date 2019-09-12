@@ -21,3 +21,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/create-schedule', 'ScheduleController@store')->name('create.schedule');
+Route::delete('/delete-schedule/{id}', 'ScheduleController@destroy')->name('delete.schedule');
+Route::match(['put', 'patch'],'/update-schedule/{id}', 'ScheduleController@update')->name('update.schedule');

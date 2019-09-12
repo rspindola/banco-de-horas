@@ -3,48 +3,54 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+            <div class="col-md-12">
+                @include('layouts.message')
+            </div>
         <div class="col-md-6">
             <form action="/create-schedule" method="post">
                 @csrf
                 <div class="form-group row">
                     <label for="inputData" class="col-sm-2 col-form-label">Data</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control @error('date') is-invalid @enderror" name="date" data-toggle="datepicker">
+                        <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
+                            data-toggle="datepicker">
 
                         @error('date')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEntrada" class="col-sm-2 col-form-label">Entrada</label>
                     <div class="col-sm-10">
-                        <input type="time" class="form-control timepicker @error('startTime') is-invalid @enderror" name='startTime'>
+                        <input type="time" class="form-control timepicker @error('startTime') is-invalid @enderror"
+                            name='startTime'>
 
                         @error('startTime')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Saida</label>
                     <div class="col-sm-10">
-                        <input type="time" class="form-control timepicker @error('finishTime') is-invalid @enderror" name='finishTime'>
+                        <input type="time" class="form-control timepicker @error('finishTime') is-invalid @enderror"
+                            name='finishTime'>
 
                         @error('finishTime')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                         @enderror
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12">
-                            <button type="submit" class="btn btn-success float-right">Enviar</button>
+                        <button type="submit" class="btn btn-success float-right">Enviar</button>
                     </div>
                 </div>
             </form>
@@ -58,6 +64,7 @@
                         <th class="text-right">Entrada</th>
                         <th class="text-right">Saida</th>
                         <th class="text-right">Total</th>
+                        <th class="text-right">Acao</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,6 +94,23 @@
                         <td class="text-right">
                             {{$tempoTotalHora}}:{{$tempoTotalMinutos}}
                         </td>
+                        <td class="text-right">
+                            <a href="javascript:;" 
+                                class="edit-modal"
+                                data-id="{{$schedule->id}}"
+                                data-date="{{$schedule->date}}" 
+                                data-starttime="{{$schedule->startTime}}" 
+                                data-finishtime="{{$schedule->finishTime}}">
+                                    Editar
+                            </a>
+                            <a href="javascript:;" 
+                                data-toggle="modal" 
+                                onclick="deleteData({{$schedule->id}})"
+                                data-target="#DeleteModal" 
+                                class="btn btn-default"
+                                data-original-title="Excluir" 
+                                data-container="body">Excluir</a>
+                        </td>
                     </tr>
                     @endforeach
                 <tfoot>
@@ -105,8 +129,7 @@
             @endif
         </div>
     </div>
-    <div class="row">
-
-    </div>
 </div>
+@include('layouts.delete')
+@include('layouts.edit')
 @stop

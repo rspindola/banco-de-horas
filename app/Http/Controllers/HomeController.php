@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $schedules = Schedule::where('user_id', auth()->user()->id)->get();
+        $schedules = Schedule::where('user_id', auth()->user()->id)->orderBy('date', 'asc')->get();
 
         
         return view('home')->with('schedules', $schedules);
