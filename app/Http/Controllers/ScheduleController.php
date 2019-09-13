@@ -75,7 +75,7 @@ class ScheduleController extends Controller
      * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
             'date' => 'required',
@@ -83,7 +83,7 @@ class ScheduleController extends Controller
             'finishTime' => 'required'
         ]);
         
-        $schedule = auth()->user()->schedules()->update($validatedData);
+        $schedule = auth()->user()->schedules()->where('id', $id)->update($validatedData);
         return redirect()->route('home')
             ->with('success', 'Alterado com sucesso.');
     }

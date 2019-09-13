@@ -118,7 +118,7 @@
                     $somaHora = ($soma > 0 ? floor($soma / 60) : ceil($soma / 60));
                     $somaMinutos = substr('0' . $soma % 60, -2);
                     @endphp
-                    <td colspan="4" class="text-right">
+                    <td colspan="5" class="text-right">
                         <p class="font-weight-bold {{($soma > 0 ? 'text-success' : 'text-danger')}}">
                             <b>{{$somaHora}}:{{$somaMinutos}}</b>
                         </p>
